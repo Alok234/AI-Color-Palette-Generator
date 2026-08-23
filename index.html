@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>PaletteSense AI</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Font -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background: #f8fafc;
+        }
+
+        .gradient-text {
+            background: linear-gradient(
+                90deg,
+                #4f46e5,
+                #8b5cf6,
+                #06b6d4
+            );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .glass {
+            background: rgba(255,255,255,.75);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,.8);
+        }
+
+        .color-card {
+            transition: all .25s ease;
+        }
+
+        .color-card:hover {
+            transform: translateY(-6px);
+            box-shadow:
+                0 20px 40px rgba(15,23,42,.12);
+        }
+
+        .spinner {
+            width: 32px;
+            height: 32px;
+
+            border: 3px solid #e2e8f0;
+            border-top-color: #4f46e5;
+
+            border-radius: 50%;
+
+            animation:
+                spin .8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .fade-in {
+            animation:
+                fadeIn .5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+<div class="min-h-screen">
+
+
+    <!-- ========================================= -->
+    <!-- NAVBAR -->
+    <!-- ========================================= -->
+
+    <nav class="max-w-7xl mx-auto px-6 py-6">
+
+        <div class="flex items-center justify-between">
+
+            <div class="flex items-center gap-3">
+
+                <div
+                    class="w-11 h-11 rounded-2xl
+                           bg-gradient-to-br
+                           from-indigo-600 to-purple-600
+                           flex items-center justify-center
+                           text-white font-bold text-xl
+                           shadow-lg"
+                >
+                    P
+                </div>
+
+                <div>
+
+                    <h1 class="font-bold text-lg">
+                        PaletteSense
+                    </h1>
+
+                    <p class="text-xs text-slate-500">
+                        AI Design Intelligence
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="flex items-center gap-2
+                       text-sm text-slate-500"
+            >
+
+                <span
+                    class="w-2.5 h-2.5
+                           bg-green-500
+                           rounded-full"
+                ></span>
+
+                AI Online
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- ========================================= -->
+    <!-- HERO -->
+    <!-- ========================================= -->
+
+    <section
+        class="max-w-5xl mx-auto
+               px-6 pt-20 pb-16
+               text-center"
+    >
+
+        <div
+            class="inline-flex
+                   items-center
+                   px-4 py-2
+                   rounded-full
+                   bg-indigo-50
+                   text-indigo-600
+                   text-xs
+                   font-bold
+                   mb-7"
+        >
+
+            ✨ AI DESIGN SYSTEM GENERATOR
+
+        </div>
+
+
+        <h2
+            class="text-5xl md:text-7xl
+                   font-extrabold
+                   tracking-tight
+                   leading-tight"
+        >
+
+            Turn your idea into
+
+            <span class="gradient-text block">
+
+                a beautiful design system.
+
+            </span>
+
+        </h2>
+
+
+        <p
+            class="max-w-2xl
+                   mx-auto
+                   mt-7
+                   text-lg
+                   text-slate-500
+                   leading-relaxed"
+        >
+
+            Describe your product, and PaletteSense AI
+            understands the industry, visual style and
+            emotional mood — then generates a complete
+            color system for your interface.
+
+        </p>
+
+    </section>
+
+
+
+    <!-- ========================================= -->
+    <!-- INPUT -->
+    <!-- ========================================= -->
+
+    <section
+        class="max-w-4xl
+               mx-auto
+               px-6"
+    >
+
+        <div
+            class="glass
+                   rounded-3xl
+                   shadow-2xl
+                   p-5 md:p-7"
+        >
+
+            <div
+                class="flex
+                       justify-between
+                       items-center
+                       mb-4"
+            >
+
+                <label
+                    class="font-semibold
+                           text-slate-800"
+                >
+
+                    Describe your product
+
+                </label>
+
+
+                <span
+                    id="counter"
+                    class="text-xs
+                           text-slate-400"
+                >
+
+                    0 / 500
+
+                </span>
+
+            </div>
+
+
+            <textarea
+                id="description"
+                maxlength="500"
+                rows="6"
+                placeholder="Example: A premium modern healthcare mobile application for young adults..."
+                class="w-full
+                       resize-none
+                       rounded-2xl
+                       border
+                       border-slate-200
+                       p-5
+                       outline-none
+                       focus:ring-4
+                       focus:ring-indigo-100
+                       focus:border-indigo-400
+                       transition"
+            ></textarea>
+
+
+            <div
+                class="flex
+                       justify-end
+                       mt-5"
+            >
+
+                <button
+                    id="generateBtn"
+                    class="px-7
+                           py-3.5
+                           rounded-xl
+                           bg-indigo-600
+                           hover:bg-indigo-700
+                           text-white
+                           font-semibold
+                           shadow-lg
+                           hover:shadow-xl
+                           transition
+                           active:scale-95"
+                >
+
+                    ✨ Generate Design
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================================= -->
+    <!-- LOADING -->
+    <!-- ========================================= -->
+
+    <section
+        id="loading"
+        class="hidden
+               text-center
+               py-20"
+    >
+
+        <div
+            class="spinner
+                   mx-auto
+                   mb-5"
+        ></div>
+
+        <h3
+            class="font-semibold
+                   text-lg"
+        >
+
+            PaletteSense AI is thinking...
+
+        </h3>
+
+        <p
+            class="text-slate-500
+                   text-sm
+                   mt-2"
+        >
+
+            Understanding your product, style and mood.
+
+        </p>
+
+    </section>
+
+
+
+    <!-- ========================================= -->
+    <!-- RESULTS -->
+    <!-- ========================================= -->
+
+    <main
+        id="results"
+        class="hidden
+               max-w-7xl
+               mx-auto
+               px-6
+               pb-24
+               fade-in"
+    >
+
+
+        <!-- ===================================== -->
+        <!-- AI ANALYSIS -->
+        <!-- ===================================== -->
+
+        <section class="mt-20">
+
+            <div class="mb-7">
+
+                <p
+                    class="text-xs
+                           font-bold
+                           text-indigo-600"
+                >
+                    01 — AI ANALYSIS
+                </p>
+
+                <h3
+                    class="text-3xl
+                           font-bold
+                           mt-2"
+                >
+                    Your design direction
+                </h3>
+
+            </div>
+
+
+            <div
+                class="grid
+                       md:grid-cols-3
+                       gap-5"
+            >
+
+
+                <!-- INDUSTRY -->
+
+                <div
+                    class="bg-white
+                           rounded-2xl
+                           border
+                           border-slate-200
+                           p-6
+                           shadow-sm"
+                >
+
+                    <p
+                        class="text-xs
+                               font-bold
+                               text-slate-400"
+                    >
+                        INDUSTRY
+                    </p>
+
+                    <h4
+                        id="industry"
+                        class="text-2xl
+                               font-bold
+                               mt-3
+                               capitalize"
+                    >
+                        —
+                    </h4>
+
+                    <div
+                        class="h-2
+                               bg-slate-100
+                               rounded-full
+                               mt-6
+                               overflow-hidden"
+                    >
+
+                        <div
+                            id="industryBar"
+                            class="h-full
+                                   bg-indigo-600
+                                   rounded-full
+                                   transition-all
+                                   duration-1000"
+                            style="width:0%"
+                        ></div>
+
+                    </div>
+
+                    <p
+                        id="industryConfidence"
+                        class="text-xs
+                               text-slate-400
+                               mt-3"
+                    >
+                        —
+                    </p>
+
+                </div>
+
+
+
+                <!-- STYLE -->
+
+                <div
+                    class="bg-white
+                           rounded-2xl
+                           border
+                           border-slate-200
+                           p-6
+                           shadow-sm"
+                >
+
+                    <p
+                        class="text-xs
+                               font-bold
+                               text-slate-400"
+                    >
+                        VISUAL STYLE
+                    </p>
+
+                    <h4
+                        id="style"
+                        class="text-2xl
+                               font-bold
+                               mt-3
+                               capitalize"
+                    >
+                        —
+                    </h4>
+
+                    <div
+                        class="h-2
+                               bg-slate-100
+                               rounded-full
+                               mt-6
+                               overflow-hidden"
+                    >
+
+                        <div
+                            id="styleBar"
+                            class="h-full
+                                   bg-purple-600
+                                   rounded-full
+                                   transition-all
+                                   duration-1000"
+                            style="width:0%"
+                        ></div>
+
+                    </div>
+
+                    <p
+                        id="styleConfidence"
+                        class="text-xs
+                               text-slate-400
+                               mt-3"
+                    >
+                        —
+                    </p>
+
+                </div>
+
+
+
+                <!-- MOOD -->
+
+                <div
+                    class="bg-white
+                           rounded-2xl
+                           border
+                           border-slate-200
+                           p-6
+                           shadow-sm"
+                >
+
+                    <p
+                        class="text-xs
+                               font-bold
+                               text-slate-400"
+                    >
+                        MOOD
+                    </p>
+
+                    <h4
+                        id="mood"
+                        class="text-2xl
+                               font-bold
+                               mt-3
+                               capitalize"
+                    >
+                        —
+                    </h4>
+
+                    <div
+                        class="h-2
+                               bg-slate-100
+                               rounded-full
+                               mt-6
+                               overflow-hidden"
+                    >
+
+                        <div
+                            id="moodBar"
+                            class="h-full
+                                   bg-cyan-500
+                                   rounded-full
+                                   transition-all
+                                   duration-1000"
+                            style="width:0%"
+                        ></div>
+
+                    </div>
+
+                    <p
+                        id="moodConfidence"
+                        class="text-xs
+                               text-slate-400
+                               mt-3"
+                    >
+                        —
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ===================================== -->
+        <!-- COLOR SYSTEM -->
+        <!-- ===================================== -->
+
+        <section class="mt-20">
+
+            <div class="mb-7">
+
+                <p
+                    class="text-xs
+                           font-bold
+                           text-indigo-600"
+                >
+                    02 — COLOR SYSTEM
+                </p>
+
+                <h3
+                    class="text-3xl
+                           font-bold
+                           mt-2"
+                >
+                    Generated palette
+                </h3>
+
+                <p
+                    class="text-slate-500
+                           mt-2"
+                >
+                    Click any color to copy its HEX code.
+                </p>
+
+            </div>
+
+
+            <div
+                id="palette"
+                class="grid
+                       grid-cols-2
+                       md:grid-cols-5
+                       gap-5"
+            ></div>
+
+        </section>
+
+
+
+        <!-- ===================================== -->
+        <!-- UI PREVIEW -->
+        <!-- ===================================== -->
+
+        <section class="mt-20">
+
+            <div class="mb-7">
+
+                <p
+                    class="text-xs
+                           font-bold
+                           text-indigo-600"
+                >
+                    03 — UI PREVIEW
+                </p>
+
+                <h3
+                    class="text-3xl
+                           font-bold
+                           mt-2"
+                >
+                    See your palette in action
+                </h3>
+
+            </div>
+
+
+            <div
+                id="preview"
+                class="rounded-3xl
+                       overflow-hidden
+                       shadow-2xl
+                       bg-white"
+            >
+
+
+                <!-- Preview navbar -->
+
+                <div
+                    id="previewNav"
+                    class="px-7
+                           py-5
+                           border-b
+                           flex
+                           items-center"
+                >
+
+                    <div
+                        id="previewBrand"
+                        class="font-bold"
+                    >
+                        HealthCare
+                    </div>
+
+
+                    <div
+                        class="ml-auto
+                               hidden
+                               md:flex
+                               gap-8
+                               text-sm
+                               text-slate-500"
+                    >
+
+                        <span>
+                            Dashboard
+                        </span>
+
+                        <span>
+                            Activity
+                        </span>
+
+                        <span>
+                            Profile
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Preview content -->
+
+                <div
+                    id="previewBody"
+                    class="p-8
+                           md:p-16"
+                >
+
+                    <p
+                        id="previewLabel"
+                        class="text-xs
+                               font-bold"
+                    >
+                        GOOD MORNING 👋
+                    </p>
+
+
+                    <h4
+                        class="text-4xl
+                               md:text-5xl
+                               font-bold
+                               mt-4"
+                    >
+
+                        Your health overview
+
+                    </h4>
+
+
+                    <p
+                        class="text-slate-500
+                               mt-3"
+                    >
+
+                        Everything looks good today.
+
+                    </p>
+
+
+                    <!-- Health card -->
+
+                    <div
+                        id="healthCard"
+                        class="mt-10
+                               rounded-3xl
+                               p-7
+                               md:p-10
+                               text-white
+                               flex
+                               items-center
+                               justify-between"
+                    >
+
+                        <div>
+
+                            <p class="opacity-80">
+                                Health Score
+                            </p>
+
+                            <p
+                                class="text-5xl
+                                       font-bold
+                                       mt-2"
+                            >
+                                84%
+                            </p>
+
+                        </div>
+
+
+                        <div
+                            id="scoreCircle"
+                            class="w-24
+                                   h-24
+                                   rounded-full
+                                   border-8
+                                   flex
+                                   items-center
+                                   justify-center
+                                   font-bold
+                                   text-xl"
+                        >
+
+                            84
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Buttons -->
+
+                    <div
+                        class="flex
+                               gap-3
+                               mt-6"
+                    >
+
+                        <button
+                            id="primaryButton"
+                            class="px-6
+                                   py-3
+                                   rounded-xl
+                                   text-white
+                                   font-semibold"
+                        >
+                            View Dashboard
+                        </button>
+
+
+                        <button
+                            id="secondaryButton"
+                            class="px-6
+                                   py-3
+                                   rounded-xl
+                                   font-semibold
+                                   border"
+                        >
+                            Track Activity
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- ========================================= -->
+    <!-- FOOTER -->
+    <!-- ========================================= -->
+
+    <footer
+        class="max-w-7xl
+               mx-auto
+               px-6
+               py-12
+               text-center
+               text-sm
+               text-slate-400"
+    >
+
+        PaletteSense AI · Built for designers
+
+    </footer>
+
+</div>
+
+
+
+<!-- ============================================= -->
+<!-- JAVASCRIPT -->
+<!-- ============================================= -->
+
+<script>
+
+
+// =================================================
+// IMPORTANT
+// =================================================
+
+// After Render deployment,
+// change this:
+
+const API_URL =
+    "https://YOUR-RENDER-URL.onrender.com";
+
+
+// =================================================
+// ELEMENTS
+// =================================================
+
+const description =
+    document.getElementById(
+        "description"
+    );
+
+const counter =
+    document.getElementById(
+        "counter"
+    );
+
+const generateBtn =
+    document.getElementById(
+        "generateBtn"
+    );
+
+const loading =
+    document.getElementById(
+        "loading"
+    );
+
+const results =
+    document.getElementById(
+        "results"
+    );
+
+
+// =================================================
+// CHARACTER COUNTER
+// =================================================
+
+description.addEventListener(
+    "input",
+    function () {
+
+        counter.textContent =
+            `${description.value.length} / 500`;
+
+    }
+);
+
+
+// =================================================
+// BUTTON
+// =================================================
+
+generateBtn.addEventListener(
+    "click",
+    generateDesign
+);
+
+
+// =================================================
+// GENERATE DESIGN
+// =================================================
+
+async function generateDesign() {
+
+
+    const text =
+        description.value.trim();
+
+
+    if (!text) {
+
+        alert(
+            "Please describe your product first."
+        );
+
+        return;
+
+    }
+
+
+    // Loading
+
+    loading.classList.remove(
+        "hidden"
+    );
+
+    results.classList.add(
+        "hidden"
+    );
+
+    generateBtn.disabled =
+        true;
+
+    generateBtn.textContent =
+        "Analyzing...";
+
+
+    try {
+
+
+        // =========================================
+        // SEND TO RENDER
+        // =========================================
+
+        const response =
+            await fetch(
+
+                `${API_URL}/predict`,
+
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body: JSON.stringify({
+
+                        text: text
+
+                    })
+
+                }
+
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                `Server error: ${response.status}`
+            );
+
+        }
+
+
+        // =========================================
+        // GET RESULT
+        // =========================================
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "PaletteSense AI:",
+            data
+        );
+
+
+        // =========================================
+        // DISPLAY
+        // =========================================
+
+        showResults(
+            data
+        );
+
+
+    }
+
+    catch (error) {
+
+        console.error(
+            error
+        );
+
+
+        alert(
+            "Unable to connect to the AI server.\n\n" +
+            "Make sure Render is running and " +
+            "API_URL is correct."
+        );
+
+    }
+
+
+    finally {
+
+        loading.classList.add(
+            "hidden"
+        );
+
+        generateBtn.disabled =
+            false;
+
+        generateBtn.innerHTML =
+            "✨ Generate Design";
+
+    }
+
+}
+
+
+// =================================================
+// SHOW RESULTS
+// =================================================
+
+function showResults(
+    data
+) {
+
+
+    // ---------------------------------------------
+    // Analysis
+    // ---------------------------------------------
+
+    const analysis =
+        data.analysis;
+
+    const confidence =
+        data.confidence;
+
+
+    document.getElementById(
+        "industry"
+    ).textContent =
+        analysis.industry;
+
+
+    document.getElementById(
+        "style"
+    ).textContent =
+        analysis.style;
+
+
+    document.getElementById(
+        "mood"
+    ).textContent =
+        analysis.mood;
+
+
+    // ---------------------------------------------
+    // Confidence
+    // ---------------------------------------------
+
+    updateConfidence(
+        "industry",
+        confidence.industry
+    );
+
+    updateConfidence(
+        "style",
+        confidence.style
+    );
+
+    updateConfidence(
+        "mood",
+        confidence.mood
+    );
+
+
+    // ---------------------------------------------
+    // Palette
+    // ---------------------------------------------
+
+    renderPalette(
+        data.palette
+    );
+
+
+    // ---------------------------------------------
+    // Apply colors
+    // ---------------------------------------------
+
+    applyPalette(
+        data.palette
+    );
+
+
+    // ---------------------------------------------
+    // Show
+    // ---------------------------------------------
+
+    results.classList.remove(
+        "hidden"
+    );
+
+
+    results.scrollIntoView({
+        behavior: "smooth"
+    });
+
+}
+
+
+// =================================================
+// CONFIDENCE
+// =================================================
+
+function updateConfidence(
+    name,
+    value
+) {
+
+
+    const percentage =
+        Math.round(
+            value * 100
+        );
+
+
+    document.getElementById(
+        `${name}Confidence`
+    ).textContent =
+        `${percentage}% confidence`;
+
+
+    document.getElementById(
+        `${name}Bar`
+    ).style.width =
+        `${percentage}%`;
+
+}
+
+
+// =================================================
+// COLOR PALETTE
+// =================================================
+
+function renderPalette(
+    palette
+) {
+
+
+    const container =
+        document.getElementById(
+            "palette"
+        );
+
+
+    container.innerHTML =
+        "";
+
+
+    Object.entries(
+        palette
+    ).forEach(
+        ([name, hex]) => {
+
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "color-card bg-white rounded-2xl overflow-hidden border border-slate-200 cursor-pointer";
+
+
+            card.innerHTML = `
+
+                <div
+                    class="h-44"
+                    style="
+                        background:${hex}
+                    "
+                ></div>
+
+                <div class="p-4">
+
+                    <p
+                        class="text-xs
+                               font-bold
+                               text-slate-400
+                               uppercase"
+                    >
+                        ${name}
+                    </p>
+
+                    <p
+                        class="font-mono
+                               font-semibold
+                               mt-1"
+                    >
+                        ${hex}
+                    </p>
+
+                </div>
+
+            `;
+
+
+            // Copy HEX
+
+            card.addEventListener(
+                "click",
+                async function () {
+
+
+                    try {
+
+                        await navigator.clipboard.writeText(
+                            hex
+                        );
+
+                        const code =
+                            card.querySelector(
+                                "p:last-child"
+                            );
+
+                        const old =
+                            code.textContent;
+
+                        code.textContent =
+                            "✓ Copied!";
+
+                        setTimeout(
+                            function () {
+
+                                code.textContent =
+                                    old;
+
+                            },
+                            1000
+                        );
+
+                    }
+
+                    catch {
+
+                        alert(
+                            `Color: ${hex}`
+                        );
+
+                    }
+
+                }
+            );
+
+
+            container.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+// =================================================
+// APPLY PALETTE TO PREVIEW
+// =================================================
+
+function applyPalette(
+    palette
+) {
+
+
+    const primary =
+        palette.primary ||
+        "#4F46E5";
+
+    const secondary =
+        palette.secondary ||
+        "#06B6D4";
+
+    const background =
+        palette.background ||
+        "#F8FAFC";
+
+    const surface =
+        palette.surface ||
+        "#FFFFFF";
+
+
+    // =============================================
+    // Main UI
+    // =============================================
+
+    document.getElementById(
+        "generateBtn"
+    ).style.background =
+        primary;
+
+
+    // =============================================
+    // Preview
+    // =============================================
+
+    const previewBody =
+        document.getElementById(
+            "previewBody"
+        );
+
+    previewBody.style.background =
+        background;
+
+
+    const previewNav =
+        document.getElementById(
+            "previewNav"
+        );
+
+    previewNav.style.background =
+        surface;
+
+
+    const previewLabel =
+        document.getElementById(
+            "previewLabel"
+        );
+
+    previewLabel.style.color =
+        primary;
+
+
+    const previewBrand =
+        document.getElementById(
+            "previewBrand"
+        );
+
+    previewBrand.style.color =
+        primary;
+
+
+    const healthCard =
+        document.getElementById(
+            "healthCard"
+        );
+
+    healthCard.style.background =
+        primary;
+
+
+    const primaryButton =
+        document.getElementById(
+            "primaryButton"
+        );
+
+    primaryButton.style.background =
+        primary;
+
+
+    const secondaryButton =
+        document.getElementById(
+            "secondaryButton"
+        );
+
+    secondaryButton.style.color =
+        primary;
+
+
+    const scoreCircle =
+        document.getElementById(
+            "scoreCircle"
+        );
+
+    scoreCircle.style.borderColor =
+        secondary;
+
+}
+
+
+// =================================================
+// DEMO TEXT
+// =================================================
+
+description.value =
+    "Create a premium modern healthcare mobile application for young adults to manage their health.";
+
+counter.textContent =
+    `${description.value.length} / 500`;
+
+</script>
+
+</body>
+</html>
